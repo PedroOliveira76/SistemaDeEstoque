@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Css/table.css') }}">
+    <title>Max Mercado</title>
+
+</head>
+
+<body>
+    <div class="title-name">
+        <h1>Max Mercado</h1>
+    </div>
+    <main>
+
+
+        <div class="content">
+
+            <div class="content-show-itens">
+                <div class="content-table-show">
+                    <table class="table-list">
+                        <tr>
+                            <th class="idProduto">ID</th>
+                            <th>Nome</th>
+                            <th>Categoria</th>
+                            <th>Estoque</th>
+                            <th>Valor</th>
+                        </tr>
+                        {% for produto in lista_produtos %}
+                        <tr>
+                            <td id="idProduto">{{ produto.id }}</td>
+                            <td id="nome">{{ produto.nomeProduto }}</td>
+                            <td id="categoria">{{ produto.categoriaProduto }}</td>
+                            <td id="estoque">{{ produto.estoque }}</td>
+                            <td id="valor">{{ produto.valor }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="content-btns">
+                    <button id="addProduto" class="btn">Adicionar</button>
+                    <button id="editProduto" class="btn">Editar</button>
+                    <button id="procurarProduto" class="btn">Procurar</button>
+                    <button id="excluirProduto" class="btn">Excluir</button>
+                    <a id="refresh" class="btn" href="{{ url_for('produtos') }}">Atualizar tabela</a>
+                    <a id="btnSair" class="btn" href="{{ url_for('logout') }}">Sair</a>
+
+                    <!--Janelas flutuantes-->
+                    
+                        <!--Cadastra Produto-->
+                        <div class="modal-actions funcionaPF" id="cadastrarProd">
+                            <form action="" method="POST" class="myForm" >
+                                {{ form_produto.csrf_token }}
+                                <label for="">Nome Produto: 
+                                    {{ form_produto.nomeProduto }}
+                                </label>
+
+                                <label for="">Categoria Produto: 
+                                    {{ form_produto.categoriaProduto }}
+                                </label>
+
+                                <label for="">Estoque Produto: 
+                                    {{ form_produto.estoque }}
+                                </label>
+
+                                <label for="">Valor Produto: 
+                                    {{ form_produto.valor }}
+                                </label>
+                                
+                                <button type="submit" id="cadProd" class="btn_modal" name="add_product">{{ form_produto.submit_produto.label.text }}</button>
+                            </form>
+                        </div>
+
+                         <!--Edita um Produto-->
+                         <div class="modal-actions funcionaPF" id="editar" >
+                            <form action="" method="POST" class="myForm" >
+                                {{ form_edit_prod.csrf_token }}
+                                <label for="">ID Produto:
+                                    {{ form_edit_prod.idProduto(placeholder="id do item a ser editado") }}
+                                </label>
+                                <label for="">Nome Produto: 
+                                    {{ form_edit_prod.nomeProduto(placeholder="Editar Nome") }}
+                                </label>
+
+                                <label for="">Categoria Produto: 
+                                    {{ form_edit_prod.categoriaProduto(placeholder="Editar categoria") }}
+                                </label>
+
+                                <label for="">Estoque Produto:
+                                    {{ form_edit_prod.estoque(placeholder="Editar estoque") }}
+                                </label>
+
+                                <label for="">Valor Produto:
+                                    {{ form_edit_prod.valor(placeholder="Editar valor") }}
+                                </label>
+
+                                <button type="submit" id="editProd" class="btn_modal" name="edit_product">{{ form_edit_prod.submit_produto_edit.label.text }}</button>
+
+                            </form>
+                        </div>
+
+
+
+                        <!--Procura um Produto-->
+                        <div class="modal-actions-search funcionaPF" id="procurar">
+                            <form action="" method="POST" class="myForm" >
+                                {{ form_search_prod.csrf_token }}
+                                <label for="">Nome Produto: 
+                                    {{ form_search_prod.nomeProduto() }}
+                                </label>
+                                <button type="submit" id="procurarProd" class="btn_modal" name="search_prod">{{ form_search_prod.submit_produto_search.label.text }}</button>
+                            </form>
+                        </div>
+
+                        <!--Deleta um Produto-->
+                        <div class="modal-actions-search funcionaPF" id="deletar" >
+                            {{ form_delet_id.csrf_token }}
+                            <form action="" method="POST" class="myForm">
+                                <label for="">ID Produto: 
+                                    {{ form_delet_id.id() }}
+                                </label>
+                                <button type="submit" id="excluirProd" class="btn_modal" name="deletarProd">{{ form_delet_id.submit_produto_delet.label.text }}</button>
+
+                            </form>
+                        </div>
+                       
+
+
+                    <!--Final Janela Flutuantes-->
+
+                </div>
+            </div>
+
+
+        </div>
+    </main>
+
+    <!--Scripts-->
+    <script src="../static/Js/table.js"></script>
+</body>
+
+</html>
